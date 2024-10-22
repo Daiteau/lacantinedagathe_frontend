@@ -1,12 +1,32 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
-createRoot(document.getElementById('root')).render(
-  <div className='bg-gray-800 h-[100vh] text-white'>
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  </div>
-)
+import Login from "./routes/login";
+import ErrorPage from "./routes/error-page";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+    // errorElement: <ErrorPage />,
+    // children: [
+    //   {
+    //     path: "contacts/:contactId",
+    //     element: <Contact />,
+    //   },
+    // ],
+    // ce code permet de render le child contacts dans root 
+    // sauf que nous on veut pas ça on veut juste avoir une autre page
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
