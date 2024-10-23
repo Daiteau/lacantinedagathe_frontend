@@ -6,13 +6,14 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Login from "./routes/login";
+import LoginPage from "./routes/login-page";
+import SignUpPage from "./routes/signup-page"
 import ErrorPage from "./routes/error-page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
+    element: <LoginPage />,
     // errorElement: <ErrorPage />,
     // children: [
     //   {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
     // ],
     // ce code permet de render le child contacts dans root 
     // sauf que nous on veut pas ça on veut juste avoir une autre page
+  },
+  {
+    path:"/auth/login",
+    element: <LoginPage />
+  },
+  {
+    path:"/auth/signup",
+    element: <SignUpPage />
   },
 ]);
 
