@@ -51,7 +51,7 @@ export default function SignUpPage() {
     };
   
     return (
-      <div className='flex justify-center items-center w-full h-[100vh] bg-gray-500'>    
+      <div className='flex justify-center items-center w-full min-h-[100vh] bg-gray-500'>    
         <form onSubmit={handleSubmit} className="flex flex-col max-w-sm mx-auto space-y-4 border-2 border-white p-4">
           <h2 className="text-2xl font-bold text-center">Connexion</h2>
           <div>

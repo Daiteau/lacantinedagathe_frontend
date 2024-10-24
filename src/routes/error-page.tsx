@@ -7,7 +7,7 @@ interface ErrorType {
 }
 
 export default function ErrorPage() {
-  const error = useRouteError() as ErrorType;;
+  const error = useRouteError() as ErrorType;
   console.error(error);
 
   return (
