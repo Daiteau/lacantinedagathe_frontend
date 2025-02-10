@@ -15,11 +15,7 @@ export default function SignUpPage() {
     const handleSubmit = async (event) => {
       setErrorMessage('');
       event.preventDefault();
-      console.log('Email:', email);
-      console.log('Password:', password);
   
-      // Vous pouvez ajouter ici votre logique pour envoyer les données à l'API
-      // Supposons que vous envoyez les données à votre API ici :
       try {
         const user: SignUpUserDto = {
             first_name: firstName,
@@ -37,16 +33,14 @@ export default function SignUpPage() {
             alias: user.alias
         });
         
-        // Si l'authentification réussit, vous redirigez l'utilisateur
+        console.log(response.status)
         if (response.status === 200) {
-          console.log("response :",response.status)
-          console.log("Bravo vous êtes connecté !")
-        //   navigate('/auth/signup'); // Redirection vers la page de connexion
+          console.log("Bravo vous avez créé votre compte !")
+          navigate('/login');
         }
       } catch (error) {
         console.error('Error during login:', error);
         setErrorMessage(error)
-        // Vous pouvez afficher un message d'erreur à l'utilisateur ici
       }
     };
   
@@ -132,9 +126,9 @@ export default function SignUpPage() {
             Se connecter
           </button>
           {errorMessage && (
-            <p className="text-red">{JSON.stringify(errorMessage)}</p>
+            <p className="text-red">Problème lors de la création du compte</p>
           )}
-          <Link to="/auth/login" className="hover:underline">Vous avez déjà un compte ? Connectez vous !</Link>
+          <Link to="/login" className="hover:underline">Vous avez déjà un compte ? Connectez vous !</Link>
         </form>
       </div>
     )

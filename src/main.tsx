@@ -1,45 +1,57 @@
-import './index.css'
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LoginPage from "./routes/login-page";
 import SignUpPage from "./routes/signup-page"
 import WelcomePage from "./routes/welcome-page"
 import AdminUsersPage from "./routes/admin/admin-users-page"
-
 import ErrorPage from "./routes/error-page";
 
-// On déclare un type pour vérifier la présence de l'élément HTML root
-const router = createBrowserRouter([
+import './index.css'
+
+import PrivateRoute from './routes/route-components/PrivateRoute';
+import { AuthProvider } from "./routes/route-components/AuthProvider";
+
+const router =  createBrowserRouter([
   {
-    path: "/",
-    element: <WelcomePage />,
-  },
-  {
-    path:"/auth/login",
+    path: '/login',
     element: <LoginPage />
   },
   {
-    path:"/auth/signup",
+    path: '/signup',
     element: <SignUpPage />
   },
   {
-    path:"/admin/users",
-    element: <AdminUsersPage />
+    path: '/welcome',
+    element: (
+      <PrivateRoute>
+        <WelcomePage />
+      </PrivateRoute>
+    )
   },
+  {
+    path: '/admin/users',
+    element: (
+      <PrivateRoute>
+        <AdminUsersPage />
+      </PrivateRoute>
+    )
+  },
+  {
+    path: '*',
+    element: <ErrorPage />
+  }
 ]);
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
   ReactDOM.createRoot(rootElement as HTMLElement).render(
-    // <React.StrictMode>
+    <AuthProvider>
       <RouterProvider router={router} />
-    // </React.StrictMode>
+    </AuthProvider>
   );
 } else {
   console.error('Failed to find the root element.');

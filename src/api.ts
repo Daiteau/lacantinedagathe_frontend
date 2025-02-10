@@ -17,6 +17,7 @@ laCantineDAgatheApi.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       localStorage.setItem('persist:rootPersist', JSON.stringify({}));
+      console.log("API ERROR : Redirected to login page");
       window.location.href = '/login';
     }
     return Promise.reject(error);

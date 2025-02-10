@@ -1,40 +1,40 @@
 import React, { useState } from 'react';
 import { laCantineDAgatheApi } from '../api';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../routes/route-components/AuthProvider';
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (event) => {
-  setErrorMessage('')
+    setErrorMessage('');
 
     event.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    // Vous pouvez ajouter ici votre logique pour envoyer les données à l'API
-    // Supposons que vous envoyez les données à votre API ici :
     try {
-      // Exemple d'appel à une API pour l'authentification
       const response = await laCantineDAgatheApi.post('/auth/login', { email, password });
-      
-      // Si l'authentification réussit, vous redirigez l'utilisateur
+      // Après avoir reçu les jetons du backend
+
       if (response.status === 200) {
-        console.log("response :",response.status)
-        // navigate('/auth/login'); // Redirection vers la page de connexion
+        console.log("response :", response.status);
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+
+        // Utiliser signIn pour stocker les jetons et mettre à jour l'état d'authentification
+        signIn(accessToken);
+        navigate('/welcome');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setErrorMessage(error)
-      // Vous pouvez afficher un message d'erreur à l'utilisateur ici
+      setErrorMessage('Erreur lors de la connexion. Veuillez vérifier vos identifiants.');
     }
   };
 
   return (
-    <div className='flex justify-center items-center w-full min-h-[100vh] bg-gray-500'>    
+    <div className='flex justify-center items-center w-full min-h-[100vh] bg-gray-500'>
       <form onSubmit={handleSubmit} className="flex flex-col max-w-sm mx-auto space-y-4 border-2 border-white p-4">
         <h2 className="text-2xl font-bold text-center">Connexion</h2>
         <div>
@@ -49,6 +49,7 @@ export default function LoginPage() {
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
             placeholder="Entrez votre email"
+            autoComplete= "email"
           />
         </div>
 
@@ -64,6 +65,7 @@ export default function LoginPage() {
             required
             className="mt-1 p-2 border border-gray-300 rounded w-full"
             placeholder="Entrez votre mot de passe"
+            autoComplete="current-password"
           />
         </div>
 
@@ -76,9 +78,8 @@ export default function LoginPage() {
         {errorMessage && (
           <p className="text-red">{errorMessage}</p>
         )}
-        <Link to="/auth/signup" className="hover:underline">Vous n'avez pas de compte ?</Link>
+        <Link to="/signup" className="hover:underline">Vous n'avez pas de compte ?</Link>
       </form>
-      
     </div>
   );
 };

@@ -1,18 +1,22 @@
-// // import {laCantineDAgatheApi} from './api';
-// import axios from 'axios';
+// import React from 'react';
+// import { Routes, Route } from 'react-router';
 
-// function App() {
+// import LoginPage from "./routes/login-page";
+// import SignUpPage from "./routes/signup-page"
+// import WelcomePage from "./routes/welcome-page"
+// import AdminUsersPage from "./routes/admin/admin-users-page"
+// import ErrorPage from "./routes/error-page";
 
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.get('http://localhost:3000/users');
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error('Error fetching data', error);
-//     }
-//   };
+//  const App = () => {
+//   return (
+//     <Routes>
+//         <Route index element={<LoginPage />} />
+//         <Route path="signup" element={<SignUpPage />} />
+//         <Route path="welcome" element={<WelcomePage />} />
+//         <Route path="admin/users" element={<AdminUsersPage />} />
+//         <Route path="*" element={<ErrorPage/>} />
+//     </Routes>
+//   );
+// };
 
-//   return (<button className='bg-red-600' onClick={fetchData}>fetch data in console</button>);
-// }
-
-// export default App
+// export default App;

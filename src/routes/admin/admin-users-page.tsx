@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { UsersDto } from '../../interfaces/user.interface'
 import { laCantineDAgatheApi } from '../../api';
-
+import { useAuth } from '../route-components/AuthProvider';
 
 
 // cette page permet à l'admin de voir tous les utilisateurs et leur activitée (tout ce qui leur est rattaché)
 export default function AdminUsersPage(){
+    const { accessToken } = useAuth();
     const [users, setUsers] = useState<UsersDto[]>([])
     //getAllUsers
     const getUsers = async (): Promise<UsersDto[] | undefined> => {
         try{
-            const response = await laCantineDAgatheApi.get('/users'); // Récupérer la réponse complète
+            const response = await laCantineDAgatheApi.get('/users', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }); // Récupérer la réponse complète
             const results: UsersDto[] = response.data;
-            console.log(results)
             return results;
         }catch(error){
             console.error(error)
@@ -26,7 +30,6 @@ export default function AdminUsersPage(){
             setUsers(fetchedUsers); // Mets à jour l'état avec les utilisateurs récupérés
           }
         };
-        console.log("fetchedUsers")
         fetchUsers(); // Appelle fetchUsers à l'intérieur de useEffect
       }, []);
 
@@ -39,7 +42,6 @@ export default function AdminUsersPage(){
                             <th className="max-w-1/20 py-2 px-4">N°</th>
                             <th className="max-w-1/20 py-2 px-4">ID</th>
                             <th className="max-w-2/20 py-2 px-4">Date création</th>
-                            <th className="max-w-2/20 py-2 px-4">Date Suppression</th>
                             <th className="max-w-2/20 py-2 px-4">Prénom</th>
                             <th className="max-w-2/20 py-2 px-4">Nom</th>
                             <th className="max-w-3/20 py-2 px-4">Email</th>
@@ -54,7 +56,6 @@ export default function AdminUsersPage(){
                             <td className="max-w-1/20 py-2 px-4 text-center">{index + 1}</td>
                             <td className="max-w-1/20 py-2 px-4 text-center">{user.id}</td>
                             <td className="max-w-2/20 py-2 px-4 text-center">{user.created_at.toString()}</td>
-                            <td className="max-w-2/20 py-2 px-4 text-center">{user.deleted_at.toString()}</td>
                             <td className="max-w-2/20 py-2 px-4 truncate text-center">{user.first_name}</td>
                             <td className="max-w-2/20 py-2 px-4 truncate text-center">{user.last_name}</td>
                             <td className="max-w-3/20 py-2 px-4 truncate text-center">{user.email}</td>
